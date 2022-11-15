@@ -1,10 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Title</title>
-</head>
-<body>
 
-</body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <style>
+    .add_wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .item_wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .img_wrapper {
+      width: 300px;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .item_img {
+      max-width: 300px;
+      max-height: 300px;
+    }
+  </style>
+  <script>
+    $(document).ready(function () {
+      // showUrl()
+    });
+    let imgSrc =
+      "https://images.unsplash.com/photo-1510917065317-aa26965fe730?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXw5MjY0ODIyfHxlbnwwfHx8fA%3D%3D&w=1000&q=80.jpg";
+    const isValidUrl = $("#url").val() !== "";
+
+    function showUrl() {
+      $("#url_wrapper").show() && $("#item").hide();
+    }
+    function showImg() {
+      $("#url_wrapper").hide() && $("#item").show();
+    }
+    function onChangeHandler() {
+      const isvalid = $("#url").val() !== "";
+      console.log("isValidUrl-2", isvalid);
+      // isValidUrl ? showImg() : showUrl();
+    }
+    function getItemFromUrl() {
+      $.ajax({
+        type: "POST",
+        url: "/addpage/url",
+        data: { url_give: $("#url").val() },
+        success: function (response) {
+          console.log("response", response);
+          console.log(response["image"]);
+          $("#item_title").text(response["title"]);
+          $("#item_price").text(response["price"]);
+          $("#item_img").attr("src", response["image"]);
+          // $('#img_wrapper').empty()
+          // $('#img_wrapper').append(`<img class="item_img" src=${response['image']}></img>`)
+          // alert(response["msg"]);
+          // window.location.reload();
+        },
+      });
+    }
+    function saveItem() {
+      console.log("img", $("#item_img").attr("src"));
+      console.log("item_title", $("#item_title").text());
+      console.log("item_price", $("#item_price").text().replaceAll(',',''));
+      console.log("item_date", $("#item_date").val());
+      console.log("item_months", $("#item_months").val());
+      $.ajax({
+        type: "POST",
+        url: "/addpage/adding",
+        data: {
+          img_give: $("#item_img").attr("src"),
+          title_give: $("#item_title").text(),
+          price_give: Number($("#item_price").text().replaceAll(',','')),
+          date_give: $("#item_date").val(),
+          months_give: $("#item_months").val(),
+        },
+        success: function (response) {
+            console.log(response)          
+        },
+      });
+    }
+    function cancelAdding() {
+      let imgSrc =
+        "https://images.unsplash.com/photo-1510917065317-aa26965fe730?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXw5MjY0ODIyfHxlbnwwfHx8fA%3D%3D&w=1000&q=80.jpg";
+      $("#img_wrpper").empty();
+    }
+  </script>
+  <body>
+    <div class="add_wrapper">
+      <h1>Flex !</h1>
+      <p id="url_wrapper">
+        Flex url : <input id="url" value="https://smartstore.naver.com/caseof/products/4994310522?NaPm=ct%3Dlahsevsg%7Cci%3Dba2ef2fd20e0fb2884ec9f0c58c59ef1f35eacf9%7Ctr%3Dsls%7Csn%3D1134409%7Chk%3D2e258a65fa209537def1ecae190c34ecf1300d11" onkeydown="onChangeHandler()" /><button
+          class="save_btn"
+          onclick="getItemFromUrl()"
+        >
+          저장
+        </button>
+      </p>
+      <div class="item_wrapper" id="item">
+        <div id="img_wrapper">
+          <img id="item_img" class="item_img" />
+        </div>
+        <div>
+          <p>제품명 : <span id="item_title"></span></p>
+          <p>금액 : <span id="item_price"></span></p>
+          <p>구매일 : <input id="item_date" type="date" /></p>
+          <p>할부 : <input id="item_months" placeholder="몇개월?" /></p>
+        </div>
+      </div>
+      <div class="btn_wrapper">
+        <button class="btn" id="save" onclick="saveItem()">저장</button>
+        <button class="btn" id="cancel" onclick="cancelAdding()">취소</button>
+      </div>
+    </div>
+  </body>
 </html>
