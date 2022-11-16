@@ -19,6 +19,8 @@ const onclickmypage = (id)=>{
     location.href = "/itempage/?name=" + id
  }
 
+
+
 const buttonClick = (select)=>{
     select === 1 && $('.tags').text('#결국 #다내꾸')
     select === 2 && $('.tags').text('#아주 #잠시 #은행꺼')
@@ -91,8 +93,8 @@ const buttonClick = (select)=>{
                     }}
                 },
                 error: function (response) {
-                        alert(response['responseJSON']['msg'])
-                        location.href ='/';
+                        console(response['responseJSON']['msg'])
+
                 }
             })}
 
@@ -147,8 +149,8 @@ $(function() {
 
         },
         error: function (response) {
-            alert(response['responseJSON']['msg'])
-            location.href = '/';
+            console(response['responseJSON']['msg'])
+
         }
     })
 })
@@ -168,6 +170,12 @@ $(function(){
 $(function() {
     $('.add-button').click(()=>{location.href = '/addpage'})
 })
+
+function logout() {
+    $.removeCookie('mytoken', { path: '/' });
+    alert('로그아웃!')
+    window.location.href = '/'
+}
 
 
 

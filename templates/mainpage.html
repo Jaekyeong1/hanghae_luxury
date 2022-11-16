@@ -7,9 +7,16 @@
     <title>사치의 즐거움</title>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../static/js/mainpage.js"></script>
+          <!—쿠키 사용을 위해 넣어주세요!—>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
+    integrity="sha512-3j3VU6WC5rPQB4Ld1jnLV7Kd5xr+cq9avvhwqzbH/taCRNURoeEpoPBK9pDyeukwSxwRPJ8fDgvYXd6SkaZ2TA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="../static/css/mainpage.css" />
   </head>
   <body>
+    <div class="top">
+        <div class="log-out" onclick="logout()">로그 아웃</div>
+    </div>
     <header>
       <button class="all-list-button">사치들 🔥</button>
       <button class="bank-list-button">은행꺼 🏦</button>
